@@ -1,0 +1,83 @@
+package protocbuf;
+
+option java_package = "protocbuf";
+option java_outer_classname = "MgxBidReq";
+
+message MgxBidRequest
+{
+// BidRequest 结构版本,当前版本号为 1 
+required int32 version = 1;
+// 长度为 32 字节的广告请求唯一 id 
+required string bid_guid = 2;
+// 是否测试流量,用来标识是否对买方平台进行验证请求 //买方平台需要按照正常请求的标准进行响应,但需标识为测试请求 
+optional bool is_test = 3 [default=false];
+// 是否心跳测试,用来标识是否对买方平台的服务器链接进行测试 //买方平台响应 Response 时仅需要 request 中的 bid_guid 值 
+optional bool is_ping = 4 [default=false];
+// 当前用户在 Ad Exchange 平台中的唯一 ID (当前 Cookie 的 Visitor ID) 
+required int64 visitor_id = 5;
+//DSP 托管的 cookie 用户标识 ID 
+optional string dsp_user_id = 19;
+// 当前用户的 IP 地址(如 192.168.1.1) 
+required string ip = 6;
+// 当前用户客户端的 user agent 信息 
+required string user_agent = 7;
+optional int32 flash_version = 8 [default=0];
+optional string screen_size = 9;
+optional string language = 10;
+repeated string user_segment = 11;
+repeated string content_tags = 12;
+required string site_id = 13;
+optional string url = 14;
+message AdSlot {
+required int32 id = 1;
+required int32 megax_aid = 2;
+repeated int32 exclude_sensitive_category = 3;
+required int32 view_type = 4;
+required int32 ads_width = 5;
+required int32 ads_height=6;
+required int32 page_num= 7; 
+repeated uint32 buyer_min_price = 8;
+repeated string buyer_id = 9;
+repeated int32 media_type = 10;
+repeated int32 transaction_type = 11; 
+repeated string creative_files = 12;
+repeated string deal_id=13;
+optional string cur = 14;
+optional float bidfloor=15;
+
+}
+repeated AdSlot adslot = 15;
+message AdSlot_union {
+repeated int32 adslot_index_ids = 1;
+repeated uint32 buyer_min_price = 2;
+repeated string buyer_id = 3;
+repeated int32 transaction_type= 4; 
+}
+optional AdSlot_union adslot_union = 16;
+message Video{
+optional uint32 minduration = 1;
+optional uint32 maxduration = 2;
+optional uint32 protocol = 3;
+	
+}
+optional Video video = 17;
+
+message Mobile {
+required int32 app_id = 1;
+required int32 device_unique_type = 2;
+required string device_unique_id = 3;
+required string device_brand = 4;
+required string device_model = 5;
+required string device_os = 6;
+required string device_rs = 7;
+required int32 device_net = 8;
+required int32 device_communication_operators_id = 9;
+optional string app_name = 10;
+optional string longitude = 11;
+optional string latitude = 12;
+optional int32 platform=13;
+}
+optional Mobile mobile = 18; 
+}
+
+
